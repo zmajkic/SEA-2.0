@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-public class repository {
+public class Repository {
 
 	java.util.Scanner scanner = new java.util.Scanner(System.in);
 

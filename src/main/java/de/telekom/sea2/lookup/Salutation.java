@@ -1,18 +1,27 @@
 package de.telekom.sea2.lookup;
 
-public class Salutation {
+public enum Salutation {
 
 	
 	
-	 enum salutation {
-	     MR,
-	     MRS,
-	     OTHER
+	     MR, MRS, OTHER;
+	     
+	     
+	     public static Salutation fromString(String string) {
+
+	    	 
+	    	 return MR;
+	    	 
+	    	 
+	    	 
+	     }
+	     
+	     
 	}
 	
 	
 	
-}
+
 
 
 
