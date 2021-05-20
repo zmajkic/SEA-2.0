@@ -8,11 +8,13 @@
 
 package de.telekom.sea2.persistence;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import de.telekom.sea2.lookup.Salutation;
 import de.telekom.sea2.model.Person;
 
 public class PersonRepository {               // Klasse öffnen
@@ -25,10 +27,11 @@ public class PersonRepository {               // Klasse öffnen
 	Statement statement;                       // variable  statement Typ java.sql.Statement sql statement
 	ResultSet resultSet;                       // variable  resultset Typ java.sql.ResultSet 
 
+	
 // DB-Init
 	public void dbInit() throws ClassNotFoundException, SQLException {   // Methode öffnen
 		Class.forName(DRIVER);	                  // DRIVER = Argument  Datenbank Treiber laden
-		connection = DriverManager.getConnection(URL); //
+		connection = DriverManager.getConnection(URL); //   bei Methodenaufruf dbInit -> DB connection
 	}                                         // Methode schließen
 	
 	
@@ -36,27 +39,47 @@ public class PersonRepository {               // Klasse öffnen
 	public boolean create(Person person)  {   // (Datentyp Person Variable person)
 		return false;
 	}
+	
 // getPerson über Id
 	public Person get(long id) throws SQLException  {             // Person abfrage anhand der ID 
-		statement = connection.createStatement();                 // DB connection 
+		statement = connection.createStatement();                 // Kanal erzeugen vom DB statement 
 		resultSet = statement.executeQuery("select * from personen where id =" + id);  // 
-		
-		while (resultSet.next()) {
-			System.out.println("ID       : " + resultSet.getInt(1)); // ID
-			System.out.println("Anrede   : " + resultSet.getInt(2)); // Anrede
-			System.out.println("Vorname  : " + resultSet.getString(3)); // Vorname
-			System.out.println("Nachname : " + resultSet.getString(4)); // Nachname
-			System.out.println(""); // Leer
+		if (resultSet.next()){
+			Person person = new Person(
+					resultSet.getLong(1),
+					Salutation.fromByte(resultSet.getByte(2)),
+					resultSet.getString(3),
+					resultSet.getString(4));
+			return person;	
+		} else {
+			return null;
 		}
-		
-		return null;				
-		
 	}
 	
-// Sichbarkeit Rückgabewert Methodenname 
-	public Person[] getAll()  {               // rückgabe Array[] mit (*) allen Werten 
-		return null;						  //
+	
+	
+	
+	
+	
+	public ArrayList getAll() throws SQLException {
+		ArrayList arrayList = new ArrayList();
+		statement = connection.createStatement();
+
+		resultSet = statement.executeQuery("select * from personen");
+		while (resultSet.next()) {
+			
+			Person person = new Person(resultSet.getLong(1), Salutation.fromByte(resultSet.getByte(2)), // konvertierung
+					resultSet.getString(3), resultSet.getString(4));									// der Byte in
+					arrayList.add(person);
+		}
+			return arrayList;
 	}
+	
+	
+	
+	
+	
+		
 
 	public boolean update(Person person)  {   //   
 			return false;				 	  // 
