@@ -32,13 +32,13 @@ public class Repository {
 		Connection connection = DriverManager.getConnection(URL);
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery("select * from personen");
-		while (resultSet.next()) {
+/*		while (resultSet.next()) {
 			System.out.println("ID: " + resultSet.getLong(1)); // ID
 			System.out.println("Anrede: " + resultSet.getShort(2)); // Anrede
 			System.out.println("Vorname: " + resultSet.getString(3)); // Vorname
 			System.out.println("Nachname: " + resultSet.getString(4)); // Nachname
 
 		}
-
+*/
 	}
 }

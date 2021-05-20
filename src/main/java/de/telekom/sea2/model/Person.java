@@ -9,6 +9,26 @@ public class Person {
     private String firstname;
     private String lastname;
 	
+    
+// Constructor         
+	public Person(long id, Salutation salutation, String firstname, String lastname) {
+		this.id = id;
+		this.salutation = salutation;
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+	
+// Constructor         	
+	public Person(long id, String salutation, String firstname, String lastname) {
+		this.id = id;
+		this.salutation = Salutation.fromString(salutation);
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+	
+	
+	
+	
 	public long getId() {
 		return id;
 	}
