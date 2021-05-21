@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -35,10 +36,62 @@ public class PersonRepository {               // Klasse öffnen
 	}                                         // Methode schließen
 	
 	
+	
+	
 // Sichbarkeit Rückgabewert Methodenname (Parameter) {Methoden-Funktion}
-	public boolean create(Person person)  {   // (Datentyp Person Variable person)
-		return false;
+	public boolean create(Person person) throws SQLException  {   // (Datentyp Person Variable person)
+		PreparedStatement preparedStatement = 
+				connection.prepareStatement("insert into personen (ID, ANREDE, VORNAME, NACHNAME) values (?,?,?,?)");
+		
+		long id = person.getId();
+		Salutation salutation = person.getSalutation();  //person.getSalutation().toByte();
+		byte salutationByte = salutation.toByte();
+		String firstname = person.getFirstname();
+		String lastname = person.getLastname();
+	
+		preparedStatement.setLong(1, id);
+		preparedStatement.setByte(2, salutationByte);
+		preparedStatement.setString(3, firstname);
+		preparedStatement.setString(4, lastname);
+		
+		boolean result = preparedStatement.execute();
+		return result;
 	}
+	
+	
+	
+	
+
+
+	public boolean update(Person person) throws SQLException  {   //   
+			PreparedStatement preparedStatement = 
+					connection.prepareStatement("update personen set VORNAME=?, NACHNAME=? WHERE ID =?");
+			
+			long id = person.getId();
+			Salutation salutation = person.getSalutation();  //person.getSalutation().toByte();
+			byte salutationByte = salutation.toByte();
+			String firstname = person.getFirstname();
+			String lastname = person.getLastname();
+		
+			preparedStatement.setLong(3, id);
+//			preparedStatement.setByte(2, salutationByte);
+			preparedStatement.setString(1, firstname);
+			preparedStatement.setString(2, lastname);
+			
+			boolean result = preparedStatement.execute();
+			return result;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 // getPerson über Id
 	public Person get(long id) throws SQLException  {             // Person abfrage anhand der ID 
@@ -80,19 +133,25 @@ public class PersonRepository {               // Klasse öffnen
 	
 	
 		
-
-	public boolean update(Person person)  {   //   
-			return false;				 	  // 
-	}
-
-	public boolean delete(Person person)  {   //   
+	
+	
+	
+/** Personen löschen mit Person  **/
+	public boolean delete(Person person) throws SQLException  {   //   
 		long id = person.getId();	
 		return delete(id);                    // return boolean von Methode id (true false)
 	}
-	
-	public boolean delete(long id)  {         //   
-		return false;				 	      // 
+
+/** Personen löschen mit Person ID **/	
+	public boolean delete(long id) throws SQLException  {         //   
+		statement = connection.createStatement();
+		boolean result = statement.execute("delete from personen where id=" + id);
+		return result;				 	      // 
 	}
+	
+	
+	
+	
 	
 	public boolean deleteAll()  {             //   
 		return false;				 	      // 

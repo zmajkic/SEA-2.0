@@ -27,6 +27,9 @@ public class Person {
 	}
 	
 	
+// Constructor         	
+		public Person() {
+		}
 	
 	
 	public long getId() {
