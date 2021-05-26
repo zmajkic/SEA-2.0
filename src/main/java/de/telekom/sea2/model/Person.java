@@ -4,27 +4,44 @@ import de.telekom.sea2.lookup.Salutation;
 
 public class Person {
 	
-	private long id;
+	private long id = -1;
 	private Salutation salutation;
     private String firstname;
     private String lastname;
 	
     
 // Constructor         
-	public Person(long id, Salutation salutation, String firstname, String lastname) {
-		this.id = id;
+	public Person(Salutation salutation, String firstname, String lastname) {
+	//	this.id = id;
 		this.salutation = salutation;
 		this.firstname = firstname;
 		this.lastname = lastname;
 	}
 	
 // Constructor         	
-	public Person(long id, String salutation, String firstname, String lastname) {
-		this.id = id;
+	public Person(String salutation, String firstname, String lastname) {
+	//	this.id = id;
 		this.salutation = Salutation.fromString(salutation);
 		this.firstname = firstname;
 		this.lastname = lastname;
 	}
+	
+// Constructor    	
+	public Person(long id, Salutation salutation, String firstName, String lastName) {
+		this.id = id;
+		this.salutation = salutation;
+		this.firstname = firstName;
+		this.lastname = lastName;
+	}
+	
+// Constructor    	
+	public Person(long id, String salutation, String firstName, String lastName) {
+		this.id = id;
+		this.salutation = Salutation.fromString(salutation);
+		this.firstname = firstName;
+		this.lastname = lastName;
+	}
+	
 	
 	
 // Constructor         	

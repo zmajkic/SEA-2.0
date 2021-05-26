@@ -22,7 +22,9 @@ public class PersonRepository {               // Klasse öffnen
 
 // DB Parameter	
 	final static String DRIVER = "org.mariadb.jdbc.Driver";    // DRIVER definieren für MariaDB
-	final static String URL = "jdbc:mysql://localhost:3306/seadb?user=seauser&password=seapass";
+	final static String dbUser = "seauser";
+	final static String dbPassword = "seapass";
+	final static String URL = String.format("jdbc:mysql://localhost:3306/seadb?user=%s&password=%s",dbUser,dbPassword);
 
 	Connection connection;                     // variable connection Typ java.sql.Connecton 
 	Statement statement;                       // variable  statement Typ java.sql.Statement sql statement
@@ -43,7 +45,7 @@ public class PersonRepository {               // Klasse öffnen
 		PreparedStatement preparedStatement = 
 				connection.prepareStatement("insert into personen (ID, ANREDE, VORNAME, NACHNAME) values (?,?,?,?)");
 		
-		long id = person.getId();
+		long id = maxId() + 1;
 		Salutation salutation = person.getSalutation();  //person.getSalutation().toByte();
 		byte salutationByte = salutation.toByte();
 		String firstname = person.getFirstname();
@@ -58,11 +60,10 @@ public class PersonRepository {               // Klasse öffnen
 		return result;
 	}
 	
-	
-	
+		
 	
 
-
+// update Person 
 	public boolean update(Person person) throws SQLException  {   //   
 			PreparedStatement preparedStatement = 
 					connection.prepareStatement("update personen set VORNAME=?, NACHNAME=? WHERE ID =?");
@@ -82,20 +83,12 @@ public class PersonRepository {               // Klasse öffnen
 			return result;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+			
 	
 	
 // getPerson über Id
 	public Person get(long id) throws SQLException  {             // Person abfrage anhand der ID 
-		statement = connection.createStatement();                 // Kanal erzeugen vom DB statement 
+		Statement statement = connection.createStatement();                 // Kanal erzeugen vom DB statement 
 		resultSet = statement.executeQuery("select * from personen where id =" + id);  // 
 		if (resultSet.next()){
 			Person person = new Person(
@@ -109,30 +102,27 @@ public class PersonRepository {               // Klasse öffnen
 		}
 	}
 	
+		
 	
 	
-	
-	
-	
-	public ArrayList getAll() throws SQLException {
-		ArrayList arrayList = new ArrayList();
-		statement = connection.createStatement();
+// get AllPerson's	
+	public ArrayList<Person> getAll() throws SQLException {
+		ArrayList<Person> arrayList = new ArrayList<Person>();;
+		Statement statement = connection.createStatement();
 
 		resultSet = statement.executeQuery("select * from personen");
 		while (resultSet.next()) {
-			
-			Person person = new Person(resultSet.getLong(1), Salutation.fromByte(resultSet.getByte(2)), // konvertierung
-					resultSet.getString(3), resultSet.getString(4));									// der Byte in
-					arrayList.add(person);
+			Person person = new Person(
+					resultSet.getLong(1), 
+					Salutation.fromByte(resultSet.getByte(2)),
+					resultSet.getString(3), 
+					resultSet.getString(4));
+			arrayList.add(person);
+		
 		}
 			return arrayList;
 	}
 	
-	
-	
-	
-	
-		
 	
 	
 	
@@ -144,16 +134,25 @@ public class PersonRepository {               // Klasse öffnen
 
 /** Personen löschen mit Person ID **/	
 	public boolean delete(long id) throws SQLException  {         //   
-		statement = connection.createStatement();
+		Statement statement = connection.createStatement();
 		boolean result = statement.execute("delete from personen where id=" + id);
 		return result;				 	      // 
 	}
-	
-	
-	
-	
-	
-	public boolean deleteAll()  {             //   
-		return false;				 	      // 
+
+/** alle Personen löschen **/
+	public boolean deleteAll() throws SQLException {
+		Statement statement = connection.createStatement(); // Öffnet die DB
+		boolean result = statement.execute("delete from personen");
+		return result;
 	}
+/** maximale ID ermitteln **/
+	public long maxId() throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery( "select max(id) from personen" );
+		resultSet.next();
+		return resultSet.getLong(1);
+	}
+	
+
+	
 }    // Klasse schließen

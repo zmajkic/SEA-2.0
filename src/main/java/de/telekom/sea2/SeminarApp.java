@@ -18,10 +18,8 @@ public class SeminarApp {
 
 		PersonRepository personRepository = new PersonRepository();
 		
-		
-		
-		
-		// SelectById
+				
+// SelectById
 		try {
 			personRepository.dbInit();
 			Person person = personRepository.get(3);
@@ -34,83 +32,39 @@ public class SeminarApp {
 			e.printStackTrace();
 		}
 
+						
 		
-		
-		
-		
-		// DeleteById
+// DeleteById
 		try {
-			boolean result = personRepository.delete(11);  // ID 
+	//		boolean result = personRepository.delete(11);  // ID 
+			boolean result = personRepository.delete(personRepository.maxId());  // ID 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		// DeleteById
-		try {
-			boolean result = personRepository.delete(12);  // ID 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	
 		
-		// DeleteById
-		try {
-			boolean result = personRepository.delete(13);  // ID 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+					
 		
-		
-		
-		
-		
-		
-		
-		
-		/** 	CreateByPerson **/
-		boolean result;
-		long id =			11L;
+// Person in die Datenbank eintragen
 		String salutation=	"MR";
-		String firstName=	"Peter";
+		String firstName=	"Roland";
 		String lastName=	"Hoeppner";
-		Person person = new Person (id, salutation, firstName, lastName);
+		Person person = new Person (salutation, firstName, lastName);
 		try {
-			result = personRepository.create(person);
-			System.out.println("___________________________________________________________________");	
-			System.out.println(result);
-			System.out.println("___________________________________________________________________");
+	
+			boolean result = personRepository.create(person);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		try {
-			long id1 = 12L;
-			Person person1 = new Person();
-			person1.setId(id1);
-			person1.setSalutation(Salutation.OTHER);
-			person1.setFirstname("Maxi");
-			person1.setLastname("Mustermann");
-			result = personRepository.create(person1);
-			long id2 = 13L;
-			Person person2 = new Person(id2,"MRS","Maxline","Mustermann");
-			result = personRepository.create(person2);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		}	
 
+						
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		// SelectAll
+// SelectAll
 		try {
-			ArrayList personListAll = personRepository.getAll();
+			ArrayList<Person> personListAll = personRepository.getAll();
 			for (int i = 0; i < personListAll.size(); i++) {
 				person = (Person) personListAll.get(i);
 				// System.out.println(person.getFirstname());
@@ -122,5 +76,5 @@ public class SeminarApp {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+    }
 }
