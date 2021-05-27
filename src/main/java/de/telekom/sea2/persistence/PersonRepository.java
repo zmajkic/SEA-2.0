@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import de.telekom.sea2.io.DBAccess;
 import de.telekom.sea2.lookup.Salutation;
 import de.telekom.sea2.model.Person;
 
@@ -22,9 +23,16 @@ public class PersonRepository {               // Klasse öffnen
 
 // DB Parameter	
 	final static String DRIVER = "org.mariadb.jdbc.Driver";    // DRIVER definieren für MariaDB
-	final static String dbUser = "seauser";
-	final static String dbPassword = "seapass";
+//	final static String dbUser = "seauser";
+//	final static String dbPassword = "seapass";
+//	final static String URL = String.format("jdbc:mysql://localhost:3306/seadb?user=%s&password=%s",dbUser,dbPassword);
+	
+	
+	final static DBAccess dBAccess = new DBAccess();	//	"Aufruf" des File über die Class DB Access
+	final static String dbUser = dBAccess.getUsername();	// übernahme des usernamen aus dem file
+	final static String dbPassword = dBAccess.getUserpass();	// übernahme des userpass aus dem file
 	final static String URL = String.format("jdbc:mysql://localhost:3306/seadb?user=%s&password=%s",dbUser,dbPassword);
+
 
 	Connection connection;                     // variable connection Typ java.sql.Connecton 
 	Statement statement;                       // variable  statement Typ java.sql.Statement sql statement
@@ -39,7 +47,7 @@ public class PersonRepository {               // Klasse öffnen
 	
 	
 	
-	
+// create Person	
 // Sichbarkeit Rückgabewert Methodenname (Parameter) {Methoden-Funktion}
 	public boolean create(Person person) throws SQLException  {   // (Datentyp Person Variable person)
 		PreparedStatement preparedStatement = 
@@ -56,8 +64,8 @@ public class PersonRepository {               // Klasse öffnen
 		preparedStatement.setString(3, firstname);
 		preparedStatement.setString(4, lastname);
 		
-		boolean result = preparedStatement.execute();
-		return result;
+		int result = preparedStatement.executeUpdate();	//	Abschluss + Gibt die Anzahl der Zeilen zurück die verarbeitet wurden.
+		return result==1;
 	}
 	
 		

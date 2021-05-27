@@ -16,11 +16,13 @@ public enum Salutation {
 		case "MR":
 		case "MISTER":
 		case "HERR":
+		case "H":
 			return MR;
 
 		case "MRS":
 		case "MS":			
 		case "FRAU":
+		case "F":
 			return MRS;
 
 		case "OTHERS":
