@@ -30,6 +30,13 @@ public class PersonComparatorImpl implements PersonComparator {
 
 			}
 		}
+		if (p1nn.length() != p2nn.length()) {
+			if (p1nn.length() > p2nn.length()) {
+				ergebnis = 1;
+			} else {
+				ergebnis = -1;
+			}
+		}
 		return ergebnis;
 	}
 
