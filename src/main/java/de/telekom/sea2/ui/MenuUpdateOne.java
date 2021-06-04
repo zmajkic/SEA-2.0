@@ -7,20 +7,41 @@ import de.telekom.sea2.lookup.Salutation;
 import de.telekom.sea2.model.Person;
 import de.telekom.sea2.persistence.PersonRepository;
 
-public class MenuInput {
+public class MenuUpdateOne {
 
 	private PersonRepository personRepository;
 
-	public MenuInput(PersonRepository a_personRepository) {
+	public MenuUpdateOne(PersonRepository a_personRepository) {
 		this.personRepository = a_personRepository;
 	}
 
-	// Eingabe einer einzutragenden Person
-	public void inputPerson() throws ClassNotFoundException, SQLException {
+// Update einer einzutragenden Person
+	public void updatePerson() throws ClassNotFoundException, SQLException {
 		boolean result = false;
 		Person person = new Person();
 
 		Scanner scanner = new Scanner(System.in); // muss nur einmal aufgerufen werden
+		System.out.print("ID zum updaten eingeben: ");
+		String stringID = scanner.nextLine();
+		int id = Integer.parseInt(stringID);
+
+		try {
+
+			person = personRepository.get(id);
+			String string = String.format("%s %s %s %s", person.getId(), person.getSalutation(), person.getFirstname(),
+					person.getLastname());
+			System.out.println(string);
+
+		} catch (NullPointerException ee) {
+			System.out.println("ID nicht vergeben!");
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		// person.setId(id);
+
 		System.out.print("Anrede eingeben: ");
 
 		String salutation;
@@ -49,19 +70,17 @@ public class MenuInput {
 		System.out.println("Nachname eingeben:");
 		person.setLastname(scanner.nextLine());
 		try {
-			result = personRepository.create(person); // ??? Ohne 'new' -> static ???
-		} catch (SQLException e) {
+			result = personRepository.update(person); // ??? Ohne 'new' -> static ???
+		} catch (SQLException ee) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ee.printStackTrace();
 		}
 		;
 		if (result == true) {
-			System.out.println("Teilnehmer wurde erfolgreich angelegt.");
+			System.out.println("Teilnehmer wurde erfolgreich aktualisiert!");
 		} else {
-			System.out.println("Teilnehmer wurde nicht angelegt!");
+			System.out.println("Teilnehmer wurde nicht aktualisiert!");
 		}
 
-		
 	}
-
 }

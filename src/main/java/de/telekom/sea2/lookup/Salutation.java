@@ -9,6 +9,9 @@ public enum Salutation {
 
 	MRS, MR, OTHER;
 
+//	private static final String MRS_VALUE = "MRS";
+
+	
 	public static Salutation fromString(String string) {
 
 		switch (string.toUpperCase()) {
@@ -17,12 +20,14 @@ public enum Salutation {
 		case "MISTER":
 		case "HERR":
 		case "H":
+		case "M":
 			return MR;
 
 		case "MRS":
 		case "MS":			
 		case "FRAU":
 		case "F":
+		case "W":
 			return MRS;
 
 		case "OTHERS":
@@ -31,7 +36,31 @@ public enum Salutation {
 		}
 		throw new IllegalArgumentException("Unexpected case!");
 	}
+	
 
+	public static boolean isOk(String string) {
+		switch (string.toUpperCase()) {
+//		case MRS_VALUE:
+		case "MRS":
+		case "MISSES":
+		case "FRAU":
+		case "W":
+		case "MR":
+		case "MISTER":
+		case "HERR":			
+		case "M":
+		case "OTHER":
+		case "OTHERS":
+		case "DIVERS":
+		case "D":
+			return true;
+		default:
+			return false;	// Falsche Eingabe
+		}
+	}
+	
+	
+		
 	public static Salutation fromByte(Byte bite) {
 
 		switch (bite) {

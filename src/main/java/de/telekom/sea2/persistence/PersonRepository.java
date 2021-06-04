@@ -87,8 +87,8 @@ public class PersonRepository {               // Klasse öffnen
 			preparedStatement.setString(1, firstname);
 			preparedStatement.setString(2, lastname);
 			
-			boolean result = preparedStatement.execute();
-			return result;
+			int result = preparedStatement.executeUpdate();	//	Abschluss + Gibt die Anzahl der Zeilen zurück die verarbeitet wurden.
+			return result==1;
 	}
 
 			
