@@ -28,7 +28,7 @@ public class PersonTest {
 		
 	//Arrange
 	cut.setFirstname("Baharak");
-	//A cc-   aaassasdqwerttgtzzg	1237hhhjxdcfcccfüct
+	//Act
 	var result = cut.getFirstname();
 	//Assert
 		assertEquals("Baharak", result);
