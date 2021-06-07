@@ -83,8 +83,21 @@ public class TogetherTest {
 	}
 
 	
-	
-	
+	@Test
+	void joinTest2 () {
+		// Arrange
+		Together<Object, Object> cut =  new Together<Object, Object>();
+		Together<Object, Object> toGethera =  new Together<Object, Object>();
+		Together<Object, Object> toGetherb =  new Together<Object, Object>();
+		// Act
+		boolean resulta = toGethera.join("Hans", "Gross");
+		boolean resultb = toGetherb.join("Petra", "Klein");
+		boolean result	= cut.join(toGethera, toGetherb);
+		// Assert
+		assertEquals (resulta, true);
+		assertEquals (resultb, true);
+		assertEquals (result, true);
+	}
 	
 	
 	@AfterEach
