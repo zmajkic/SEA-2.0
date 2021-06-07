@@ -1,5 +1,7 @@
 package de.telekom.sea2.together;
 
+
+
 public class Together<T, U> { // T & U sind Generische-Datentypen-Platzhalter
 
 	private T t;
@@ -19,11 +21,6 @@ public class Together<T, U> { // T & U sind Generische-Datentypen-Platzhalter
 		this.u = u;
 	}
 
-	public void testMethode() {
-	Together<String, String> together = new Together<String, String>();
-	together.join("Erika","Hans" ); 
-	}
-
 	@Override
 	public String toString(){
 		
@@ -32,11 +29,16 @@ public class Together<T, U> { // T & U sind Generische-Datentypen-Platzhalter
 	}
 		
 	public int hashCode() {
-		return (t.hashCode()+u.hashCode() );
+		return (t.hashCode()+u.hashCode());
 	}
 	
 	public boolean equals(Object obj) {
-		return obj.equals(this);
+	//	return obj.equals(this);
+	//	
+		if (!(obj instanceof Together)) {      // ist es nicht derselbe Typ
+			return false;
+		}
+		return hashCode()==obj.hashCode();
  	}
 	
 	public boolean split() {
